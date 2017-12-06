@@ -1,0 +1,227 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="row">
+      <h1>
+        Commercial
+      </h1>
+      <div class="row">
+        <div class="col-sm-9">
+          <button class="btn btn-success" data-toggle="modal" data-target="#new-commercial">
+            <i class="fa fa-plus"></i>
+            Add New
+          </button><br><br>
+        </div>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" placeholder="Search by title" [(ngModel)]="filterQuery"/>
+        </div>
+      </div>
+  </div>
+  <!-- contents display here -->
+  <div class="row" *ngIf="commercialList !== null">
+    <div class="row" *ngFor="let commercial of commercialList | searchTitle : filterQuery | paginate: { itemsPerPage: 5, currentPage: p }">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Commercial ID: {{commercial.id}}</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-danger" (click)="deleteCommercial(commercial.id)">
+              <i class="fa fa-times"></i>
+              Delete
+            </button>
+            <button class="btn btn-primary" (click)="beforeUpdateCommercial(commercial.id)" data-toggle="modal" data-target="#update-commercial">
+              <i class="fa fa-check"></i>
+              Update
+            </button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="col-sm-4">
+            <iframe height="250" [src]='commercial.url | urlFilter' frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+          </div>
+          <div class="col-sm-6">
+            <h2>
+              <b>
+                {{commercial.title}}
+              </b>
+            </h2>
+            <div class="row">
+              <label class="col-xs-3 control-label">StoryBord By</label>
+              <span class="col-xs-9">{{commercial.storyBoard}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Source Link</label>
+              <span class="col-xs-9">{{commercial.url}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Client</label>
+              <span class="col-xs-9">{{commercial.client}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Director</label>
+              <span class="col-xs-9">{{commercial.director}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Editor</label>
+              <span class="col-xs-9">{{commercial.editor}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Concept</label>
+              <span class="col-xs-9">{{commercial.concept}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Feedback</label>
+              <span class="col-xs-9">{{commercial.feedback}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+  <div class="row" *ngIf="commercialList === null">
+    <p>There are no commercials available</p>
+  </div>
+</div>
+
+<!-- contents insert will display here -->
+<div class="modal fade" id="new-commercial" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Add Commercial</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-success" (click)="insertNewCommercial()">
+              <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+              Upload
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Title</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="user name" [(ngModel)]="new_title" name="new_title">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">storyBoard</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="title" [(ngModel)]="new_story" name="new_story">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Source Link</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="url" [(ngModel)]="new_source_link" name="new_source_link">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Client</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="client" [(ngModel)]="new_client" name="new_client">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Director</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="director" [(ngModel)]="new_director" name="new_director">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Editor</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="editor" [(ngModel)]="new_editor" name="new_editor">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Concept</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="concept" [(ngModel)]="new_concept" name="new_concept">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Feedback</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="feedback" [(ngModel)]="new_feedback" name="new_feedback">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- contents update will display here -->
+<div class="modal fade" id="update-commercial" role="dialog" *ngIf="selectedCommercial">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Update Commercial</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-success" (click)="updateCommercial()">
+              <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+              Upload
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Title</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="user name" [(ngModel)]="selectedCommercial.title" name="update_title">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">storyBoard</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="title" [(ngModel)]="selectedCommercial.storyBoard" name="update__story">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Source Link</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="url" [(ngModel)]="selectedCommercial.url" name="update__source_link">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Client</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="client" [(ngModel)]="selectedCommercial.client" name="update__client">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Director</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="director" [(ngModel)]="selectedCommercial.director" name="update__director">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Editor</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="editor" [(ngModel)]="selectedCommercial.editor" name="update__editor">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Concept</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="concept" [(ngModel)]="selectedCommercial.concept" name="update__concept">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Feedback</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="feedback" [(ngModel)]="selectedCommercial.feedback" name="update__feedback">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
