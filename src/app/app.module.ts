@@ -28,6 +28,7 @@ import { LoginService }               from './login/login.service';
 import { BaseService }                from './globals/base.service';
 import { APIInfo }                    from './globals/api.info';
 import { CommercialService }          from './commercial/commercial.service';
+import { MusicVideoService }          from './music-video/music-video.service';
 
 /*
  * pipes importing
@@ -63,7 +64,8 @@ import { SearchTitle }                from './Pipes/Search.pipe';
     BaseService,
     APIInfo,
     ToastService,
-    CommercialService
+    CommercialService,
+    MusicVideoService
   ],
   bootstrap: [AppComponent]
 })

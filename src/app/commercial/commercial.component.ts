@@ -1,6 +1,5 @@
 import { Component, OnInit }    from '@angular/core';
 import { CommercialService }    from './commercial.service';
-import {DomSanitizer}           from '@angular/platform-browser';
 
 @Component({
   selector: 'app-commercial',
@@ -8,7 +7,7 @@ import {DomSanitizer}           from '@angular/platform-browser';
   styleUrls: ['./commercial.component.css', '../dashboard/dashboard.component.css']
 })
 export class CommercialComponent implements OnInit {
-  p: number = 1;
+  page: number = 1;
   commercialList: Array<any>;
   new_title: String;
   new_story: String;
@@ -22,7 +21,7 @@ export class CommercialComponent implements OnInit {
   filterQuery: String;
   selectedCommercial: any;
 
-  constructor(private service: CommercialService, private sanitizer: DomSanitizer) {
+  constructor(private service: CommercialService) {
     this.commercialList = null;
     this.filterQuery = null;
   }
@@ -134,5 +133,4 @@ export class CommercialComponent implements OnInit {
       reject("no commercial");
     })
   }
-
 }

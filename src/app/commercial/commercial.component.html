@@ -18,7 +18,7 @@
   </div>
   <!-- contents display here -->
   <div class="row" *ngIf="commercialList !== null">
-    <div class="row" *ngFor="let commercial of commercialList | searchTitle : filterQuery | paginate: { itemsPerPage: 5, currentPage: p }">
+    <div class="row" *ngFor="let commercial of commercialList | searchTitle : filterQuery | paginate: { itemsPerPage: 5, currentPage: page }">
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
           <h3 class="panel-title pull-left">Commercial ID: {{commercial.id}}</h3>
@@ -75,7 +75,7 @@
         </div>
       </div>
     </div>
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
   </div>
   <div class="row" *ngIf="commercialList === null">
     <p>There are no commercials available</p>

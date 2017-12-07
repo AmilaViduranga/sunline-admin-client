@@ -1,6 +1,242 @@
 <app-navbar></app-navbar>
+<app-navbar></app-navbar>
 <div class="container">
-  <p>
-    music video works!
-  </p>
+  <div class="row">
+    <h1>
+      Music Video
+    </h1>
+    <div class="row">
+      <div class="col-sm-9">
+        <button class="btn btn-success" data-toggle="modal" data-target="#new-musicVideo">
+          <i class="fa fa-plus"></i>
+          Add New
+        </button><br><br>
+      </div>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" placeholder="Search by title" [(ngModel)]="filterQuery"/>
+      </div>
+    </div>
+  </div>
+  <!-- contents display here -->
+  <div class="row" *ngIf="musicList!== null">
+    <div class="row" *ngFor="let music of musicList | searchTitle : filterQuery | paginate: { itemsPerPage: 5, currentPage: page }">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Music Video ID: {{music.id}}</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-danger" (click)="deleteMusicVideo(music.id)">
+              <i class="fa fa-times"></i>
+              Delete
+            </button>
+            <button class="btn btn-primary" (click)="beforeUpdateMusicVideo(music.id)" data-toggle="modal" data-target="#update-musicVideo">
+              <i class="fa fa-check"></i>
+              Update
+            </button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="col-sm-4">
+            <iframe height="250" [src]='music.url | urlFilter' frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+          </div>
+          <div class="col-sm-6">
+            <h2>
+              <b>
+                {{music.title}}
+              </b>
+            </h2>
+            <div class="row">
+              <label class="col-xs-3 control-label">Language</label>
+              <span class="col-xs-9">{{music.language}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Lyrics</label>
+              <span class="col-xs-9">{{music.lyrics}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Artist</label>
+              <span class="col-xs-9">{{music.artist}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Music By</label>
+              <span class="col-xs-9">{{music.musicBy}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Camera</label>
+              <span class="col-xs-9">{{music.camera}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Production</label>
+              <span class="col-xs-9">{{music.production}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Feedback</label>
+              <span class="col-xs-9">{{music.feedback}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  </div>
+  <div class="row" *ngIf="musicList === null">
+    <p>There are no music videos available</p>
+  </div>
 </div>
+
+<!-- contents insert will display here -->
+<div class="modal fade" id="new-musicVideo" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Add Music Cideo</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-success" (click)="insertNewMusicVideo()">
+              <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+              Upload
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Title</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="Title" [(ngModel)]="new_title" name="new_title">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Language</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="Language" [(ngModel)]="new_language" name="new_language">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">URL</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="source url" [(ngModel)]="new_url" name="new_url">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Lyrics</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="lyrics by" [(ngModel)]="new_lyrics" name="new_lyrics">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Artist</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="artist name" [(ngModel)]="new_artist" name="new_artist">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Music By</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="music by" [(ngModel)]="new_musicBy" name="new_musicBy">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Camera</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="camera by" [(ngModel)]="new_camera" name="new_camera">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Production</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="production by" [(ngModel)]="new_production" name="new_production">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Feed Back</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="feedback status" [(ngModel)]="new_feedback" name="new_feedback">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- contents update will display here -->
+<div class="modal fade" id="update-musicVideo" role="dialog" *ngIf="selectedMusicVideo">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">update Music Cideo</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-success" (click)="updateMusicVideo()">
+              <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+              Upload
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Title</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="Title" [(ngModel)]="selectedMusicVideo.title" name="update_title">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Language</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="Language" [(ngModel)]="selectedMusicVideo.language" name="update_language">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">URL</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="source link" [(ngModel)]="selectedMusicVideo.url" name="update_url">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Lyrics</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="lyrics by" [(ngModel)]="selectedMusicVideo.lyrics" name="update_lyrics">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Artist</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="art by" [(ngModel)]="selectedMusicVideo.artist" name="update_artist">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Music By</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="music by" [(ngModel)]="selectedMusicVideo.musicBy" name="update_musicBy">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Camera</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="camera by" [(ngModel)]="selectedMusicVideo.camera" name="update_camera">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Production</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="production by" [(ngModel)]="selectedMusicVideo.production" name="update_production">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Feed Back</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="feedback status" [(ngModel)]="selectedMusicVideo.feedback" name="update_feedback">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
