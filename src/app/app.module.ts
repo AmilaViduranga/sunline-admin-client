@@ -29,6 +29,9 @@ import { BaseService }                from './globals/base.service';
 import { APIInfo }                    from './globals/api.info';
 import { CommercialService }          from './commercial/commercial.service';
 import { MusicVideoService }          from './music-video/music-video.service';
+import { FilmService }                from './film/film.service';
+import { PrintService }               from './print/print.service';
+import { TeledramaService }           from './teledrama/teledrama.service';
 
 /*
  * pipes importing
@@ -65,7 +68,10 @@ import { SearchTitle }                from './Pipes/Search.pipe';
     APIInfo,
     ToastService,
     CommercialService,
-    MusicVideoService
+    MusicVideoService,
+    FilmService,
+    TeledramaService,
+    PrintService
   ],
   bootstrap: [AppComponent]
 })
