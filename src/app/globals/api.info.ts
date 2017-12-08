@@ -10,7 +10,7 @@ export class APIInfo {
   liveApi: String;
 
   constructor() {
-    this.liveApi = 'http://localhost:8002/';
+    this.liveApi = 'http://192.168.1.100:8002/';
   }
 }
 

@@ -17,7 +17,6 @@ export class CommercialComponent implements OnInit {
   new_concept: String;
   new_feedback: String;
   new_editor: String;
-  urlTag: any;
   filterQuery: String;
   selectedCommercial: any;
 

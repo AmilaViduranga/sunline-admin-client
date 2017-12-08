@@ -37,25 +37,11 @@
         &nbsp;Teledrama
       </a>
     </li>
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <i class="fa fa-cog" aria-hidden="true"></i>
-        Settings <span class="caret"></span>
+    <li>
+      <a (click)="logoutFromSystem()" style="cursor: pointer;">
+        <i class="fa fa-sign-out" aria-hidden="true"></i>
+        &nbsp;Log Out
       </a>
-      <ul class="dropdown-menu" role="menu">
-        <li>
-          <a href="#">
-            <i class="fa fa-user"></i>
-            User Profile
-          </a>
-        </li>
-        <li>
-          <a routerLink="/">
-            <i class="fa fa-sign-out" aria-hidden="true"></i>
-            LogOut
-          </a>
-        </li>
-      </ul>
     </li>
   </ul>
 </div>

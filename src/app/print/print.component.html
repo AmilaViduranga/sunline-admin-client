@@ -1,6 +1,163 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <p>
-    print works!
-  </p>
+  <div class="row">
+    <h1>
+      Print
+    </h1>
+    <div class="row">
+      <div class="col-sm-9">
+        <button class="btn btn-success" data-toggle="modal" data-target="#new-print">
+          <i class="fa fa-plus"></i>
+          Add New
+        </button><br><br>
+      </div>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" placeholder="Search by title" [(ngModel)]="filterQuery"/>
+      </div>
+    </div>
+  </div>
+  <!-- contents display here -->
+  <div class="row" *ngIf="printList !== null">
+    <div class="row" *ngFor="let print of printList | searchTitle : filterQuery | paginate: { itemsPerPage: 5, currentPage: page }">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">print ID: {{print.id}}</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-danger" (click)="deletePrint(print.id)">
+              <i class="fa fa-times"></i>
+              Delete
+            </button>
+            <button class="btn btn-primary" (click)="beforeUpdatePrint(print.id)" data-toggle="modal" data-target="#update-print">
+              <i class="fa fa-check"></i>
+              Update
+            </button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="col-sm-4">
+            <img style="width: 250px; height: 250px;" [src]='print.url'/>
+          </div>
+          <div class="col-sm-6">
+            <h2>
+              <b>
+                {{print.client}}
+              </b>
+            </h2>
+            <div class="row">
+              <label class="col-xs-3 control-label">Concept</label>
+              <span class="col-xs-9">{{print.concept}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Designer</label>
+              <span class="col-xs-9">{{print.designer}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">source-link</label>
+              <span class="col-xs-9"><a [href]="print.url">{{print.url}}</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  </div>
+  <div class="row" *ngIf="printList === null">
+    <p>There are no prints available</p>
+  </div>
+</div>
+
+<!-- contents insert will display here -->
+<div class="modal fade" id="new-print" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Add Print</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-success" (click)="insertPrint()">
+              <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+              Upload
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Concept</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="user name" [(ngModel)]="new_concept" name="new_concept">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">client</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="title" [(ngModel)]="new_client" name="new_client">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Source Link</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="url" [(ngModel)]="new_url" name="new_source_link">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Designer</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="client" [(ngModel)]="new_designer" name="new_designer">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- contents update will display here -->
+<div class="modal fade" id="update-print" role="dialog" *ngIf="selectedPrint">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">update Print</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-success" (click)="updatePrint()">
+              <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+              Upload
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Concept</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="user name" [(ngModel)]="selectedPrint.concept" name="update_concept">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">client</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="title" [(ngModel)]="selectedPrint.client" name="update_client">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Source Link</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="url" [(ngModel)]="selectedPrint.url" name="update_source_link">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Designer</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="client" [(ngModel)]="selectedPrint.designer" name="update_designer">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

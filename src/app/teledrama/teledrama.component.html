@@ -1,6 +1,212 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <p>
-    teledrama works!
-  </p>
+  <div class="row">
+    <h1>
+      Teledrama
+    </h1>
+    <div class="row">
+      <div class="col-sm-9">
+        <button class="btn btn-success" data-toggle="modal" data-target="#new-teledrama">
+          <i class="fa fa-plus"></i>
+          Add New
+        </button><br><br>
+      </div>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" placeholder="Search by title" [(ngModel)]="filterQuery"/>
+      </div>
+    </div>
+  </div>
+  <!-- contents display here -->
+  <div class="row" *ngIf="teledramaList !== null">
+    <div class="row" *ngFor="let teledrama of teledramaList | searchTitle : filterQuery | paginate: { itemsPerPage: 5, currentPage: page }">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Teledrama ID: {{teledrama.id}}</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-danger" (click)="deleteFilm(teledrama.id)">
+              <i class="fa fa-times"></i>
+              Delete
+            </button>
+            <button class="btn btn-primary" (click)="beforeUpdateTeledrama(teledrama.id)" data-toggle="modal" data-target="#update-teledrama">
+              <i class="fa fa-check"></i>
+              Update
+            </button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="col-sm-4">
+            <iframe height="250" [src]='teledrama.url | urlFilter' frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+          </div>
+          <div class="col-sm-6">
+            <h2>
+              <b>
+                {{teledrama.title}}
+              </b>
+            </h2>
+            <div class="row">
+              <label class="col-xs-3 control-label">language</label>
+              <span class="col-xs-9">{{teledrama.language}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">url</label>
+              <span class="col-xs-9"><a [href]="teledrama.url">{{teledrama.url}}</a></span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Producer</label>
+              <span class="col-xs-9">{{teledrama.producer}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Director</label>
+              <span class="col-xs-9">{{teledrama.director}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Camera</label>
+              <span class="col-xs-9">{{teledrama.camera}}</span>
+            </div>
+            <div class="row">
+              <label class="col-xs-3 control-label">Editor</label>
+              <span class="col-xs-9">{{teledrama.editor}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  </div>
+  <div class="row" *ngIf="teledramaList === null">
+    <p>There are no commercials available</p>
+  </div>
 </div>
+
+<!-- contents insert will display here -->
+<div class="modal fade" id="new-teledrama" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Add Teledrama</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-success" (click)="insertNewTeledrama()">
+              <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+              Upload
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Title</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="title" [(ngModel)]="new_title" name="new_title">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Language</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="language" [(ngModel)]="new_language" name="new_language">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Url</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="url" [(ngModel)]="new_url" name="new_url">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Producer</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="producer" [(ngModel)]="new_producer" name="new_producer">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Director</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="director" [(ngModel)]="new_director" name="new_director">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Camera</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="camera" [(ngModel)]="new_camera" name="new_camera">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Editor</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="video editor" [(ngModel)]="new_Editor" name="new_Editor">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- contents update will display here -->
+<div class="modal fade" id="update-teledrama" role="dialog" *ngIf="selectedTeledrama">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Update Teledrama</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-success" (click)="updateTeledrama()">
+              <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+              Upload
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Title</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="title" [(ngModel)]="selectedTeledrama.title" name="update_title">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Language</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="language" [(ngModel)]="selectedTeledrama.language" name="update_language">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Url</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="url" [(ngModel)]="selectedTeledrama.url" name="update_url">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Producer</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="producer" [(ngModel)]="selectedTeledrama.producer" name="update_producer">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Director</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="director" [(ngModel)]="selectedTeledrama.director" name="update_director">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Camera</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="camera" [(ngModel)]="selectedTeledrama.camera" name="update_camera">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Editor</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="video editor" [(ngModel)]="selectedTeledrama.editor" name="update_Editor">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
