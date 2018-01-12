@@ -20,6 +20,7 @@ import { MusicVideoComponent }        from './music-video/music-video.component'
 import { FilmComponent }              from './film/film.component';
 import { PrintComponent }             from './print/print.component';
 import { TeledramaComponent }         from './teledrama/teledrama.component';
+import { FounderComponent }           from './founder/founder.component';
 
 /*
  * services importing
@@ -32,6 +33,7 @@ import { MusicVideoService }          from './music-video/music-video.service';
 import { FilmService }                from './film/film.service';
 import { PrintService }               from './print/print.service';
 import { TeledramaService }           from './teledrama/teledrama.service';
+import { FounderService }             from './founder/founder.service';
 
 /*
  * pipes importing
@@ -51,7 +53,8 @@ import { SearchTitle }                from './Pipes/Search.pipe';
     PrintComponent,
     TeledramaComponent,
     UrlFilter,
-    SearchTitle
+    SearchTitle,
+    FounderComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +74,8 @@ import { SearchTitle }                from './Pipes/Search.pipe';
     MusicVideoService,
     FilmService,
     TeledramaService,
-    PrintService
+    PrintService,
+    FounderService
   ],
   bootstrap: [AppComponent]
 })

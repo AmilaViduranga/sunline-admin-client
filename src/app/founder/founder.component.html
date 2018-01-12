@@ -1,0 +1,125 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="row">
+      <h1>
+        About Founder
+      </h1>
+      <div class="row">
+        <div class="col-sm-9">
+          <button class="btn btn-success" data-toggle="modal" data-target="#new-founder">
+            <i class="fa fa-plus"></i>
+            Add New
+          </button><br><br>
+        </div>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" placeholder="Search by title" [(ngModel)]="filterQuery"/>
+        </div>
+      </div>
+  </div>
+  <div class="row" *ngIf="founderList !== null">
+    <div class="row" *ngFor="let founder of founderList | searchTitle : filterQuery | paginate: { itemsPerPage: 5, currentPage: page }">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Founder Information ID: {{founder.id}}</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-danger" (click)="deleteFounder(founder.id)">
+              <i class="fa fa-times"></i>
+              Delete
+            </button>
+            <button class="btn btn-primary" (click)="beforeUpdateFounder(founder.id)" data-toggle="modal" data-target="#update-founder">
+              <i class="fa fa-check"></i>
+              Update
+            </button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="col-sm-4">
+            <iframe height="250" [src]='founder.url | urlFilter' frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+          </div>
+          <div class="col-sm-6">
+            <div class="row">
+              <label class="col-xs-3 control-label">Description</label>
+              <span class="col-xs-9">{{founder.description}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  </div>
+  <div class="row" *ngIf="founderList === null">
+    <p>There are no founder details available</p>
+  </div>
+</div>
+
+<!-- contents insert will display here -->
+<div class="modal fade" id="new-founder" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Add Founder details</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-success" (click)="insertNewFounder()">
+              <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+              Upload
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Description</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="user name" [(ngModel)]="new_description" name="new_description">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Source Link</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="url" [(ngModel)]="new_source_link" name="new_source_link">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- contents update will display here -->
+<div class="modal fade" id="update-founder" role="dialog" *ngIf="selectedFounder">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Update Founder</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-success" (click)="updateFounder()">
+              <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+              Upload
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Description</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="description" [(ngModel)]="selectedFounder.description" name="update_description">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Source Link</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="url" [(ngModel)]="selectedFounder.url" name="update_source_link">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

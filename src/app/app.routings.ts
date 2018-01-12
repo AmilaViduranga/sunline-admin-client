@@ -9,6 +9,7 @@ import { FilmComponent }              from './film/film.component';
 import { MusicVideoComponent }        from './music-video/music-video.component';
 import { PrintComponent }             from './print/print.component';
 import { TeledramaComponent }         from './teledrama/teledrama.component';
+import { FounderComponent }           from './founder/founder.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -18,6 +19,7 @@ const appRoutes: Routes = [
   { path: 'musicvideo', component: MusicVideoComponent},
   { path: 'print', component: PrintComponent},
   { path: 'teledrama', component: TeledramaComponent},
+  { path: 'founder', component: FounderComponent},
   { path: '', redirectTo: 'login', pathMatch: 'full'}
 ]
 
