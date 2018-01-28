@@ -1,0 +1,138 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="row">
+    <h1>
+      Foundation Images Galary
+    </h1>
+    <div class="row">
+      <div class="col-sm-9">
+        <button class="btn btn-success" data-toggle="modal" data-target="#new-image">
+          <i class="fa fa-plus"></i>
+          Add New
+        </button><br><br>
+      </div>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" placeholder="Search by title" [(ngModel)]="filterQuery"/>
+      </div>
+    </div>
+  </div>
+  <!-- contents display here -->
+  <div class="row" *ngIf="imageList !== null">
+    <div class="row" *ngFor="let image of imageList | searchTitle : filterQuery | paginate: { itemsPerPage: 5, currentPage: page }">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Image ID: {{image.id}}</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-danger" (click)="deleteImage(image.id)">
+              <i class="fa fa-times"></i>
+              Delete
+            </button>
+            <button class="btn btn-primary" (click)="beforeUpdateImage(image)" data-toggle="modal" data-target="#update-image">
+              <i class="fa fa-check"></i>
+              Update
+            </button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="col-sm-4">
+            <img style="width: 250px; height: 250px;" [src]='image.url'/>
+          </div>
+          <div class="col-sm-6">
+            <div class="row">
+              <label class="col-xs-3 control-label">Description</label>
+              <span class="col-xs-9">{{image.description}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  </div>
+  <div class="row" *ngIf="imageList === null">
+    <p>There are no prints available</p>
+  </div>
+</div>
+
+<!-- contents insert will display here -->
+<div class="modal fade" id="new-image" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Add Image</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-success" (click)="insertImage()">
+              <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+              Upload
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Description</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="description" [(ngModel)]="new_description" name="new_description">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Image</label>
+              <div class="col-xs-9">
+                <input type="file" class="form-control" [(ngModel)]="new_image" name="new_image" (change)="fileEvent($event, 'insert')" >
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label"></label>
+              <div class="col-xs-9">
+                <img style="width: 250px; height: 250px;" *ngIf="new_image" src={{new_image}}/>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- contents update will display here -->
+<div class="modal fade" id="update-image" role="dialog" *ngIf="selectedImage">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">update Image</h3>
+          <div class="btn-group pull-right">
+            <button class="btn btn-success" (click)="updateImage()">
+              <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+              Upload
+            </button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Description</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" placeholder="user name" [(ngModel)]="selectedImage.description" name="updated_description">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Image</label>
+              <div class="col-xs-9">
+                <input type="file" class="form-control" [(ngModel)]="selectedImage.url" name="updated_image" (change)="fileEvent($event, 'update')">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Image</label>
+              <div class="col-xs-9">
+                <img style="width: 250px; height: 250px;" *ngIf="selectedImage.url" src={{selectedImage.url}}/>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

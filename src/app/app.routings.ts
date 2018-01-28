@@ -1,15 +1,16 @@
 /**
  * Created by Amila on 12/4/2017.
  */
-import { RouterModule, Routes }       from "@angular/router";
-import { LoginComponent }             from './login/login.component';
-import { DashboardComponent }         from './dashboard/dashboard.component';
-import { CommercialComponent}         from './commercial/commercial.component';
-import { FilmComponent }              from './film/film.component';
-import { MusicVideoComponent }        from './music-video/music-video.component';
-import { PrintComponent }             from './print/print.component';
-import { TeledramaComponent }         from './teledrama/teledrama.component';
-import { FounderComponent }           from './founder/founder.component';
+import { RouterModule, Routes }           from "@angular/router";
+import { LoginComponent }                 from './login/login.component';
+import { DashboardComponent }             from './dashboard/dashboard.component';
+import { CommercialComponent}             from './commercial/commercial.component';
+import { FilmComponent }                  from './film/film.component';
+import { MusicVideoComponent }            from './music-video/music-video.component';
+import { PrintComponent }                 from './print/print.component';
+import { TeledramaComponent }             from './teledrama/teledrama.component';
+import { FounderComponent }               from './founder/founder.component';
+import { FoundationImageGalaryComponent } from './foundation-image-galary/foundation-image-galary.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -20,6 +21,7 @@ const appRoutes: Routes = [
   { path: 'print', component: PrintComponent},
   { path: 'teledrama', component: TeledramaComponent},
   { path: 'founder', component: FounderComponent},
+  { path: 'image_galary', component: FoundationImageGalaryComponent},
   { path: '', redirectTo: 'login', pathMatch: 'full'}
 ]
 
